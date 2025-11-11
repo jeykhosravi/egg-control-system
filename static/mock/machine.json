@@ -1,0 +1,97 @@
+{
+	"machines": [
+		{
+			"id": 1,
+			"name": "Sorter A1",
+			"status": "running",
+			"speed": 120,
+			"eggsProcessed": 18400,
+			"temperature": 34.5,
+			"errors": 0
+		},
+		{
+			"id": 2,
+			"name": "Packer B2",
+			"status": "idle",
+			"speed": 0,
+			"eggsProcessed": 9200,
+			"temperature": 32.8,
+			"errors": 1,
+			"lastError": "Conveyor jam detected"
+		},
+		{
+			"id": 3,
+			"name": "Grader C3",
+			"status": "running",
+			"speed": 130,
+			"eggsProcessed": 22700,
+			"temperature": 36.1,
+			"errors": 0
+		},
+		{
+			"id": 4,
+			"name": "Washer D4",
+			"status": "maintenance",
+			"speed": 0,
+			"eggsProcessed": 4500,
+			"temperature": 31.2,
+			"errors": 2,
+			"lastError": "Routine maintenance in progress"
+		},
+		{
+			"id": 5,
+			"name": "Conveyor E5",
+			"status": "running",
+			"speed": 110,
+			"eggsProcessed": 30500,
+			"temperature": 33.9,
+			"errors": 0
+		},
+		{
+			"id": 6,
+			"name": "Loader F6",
+			"status": "running",
+			"speed": 95,
+			"eggsProcessed": 15200,
+			"temperature": 35.7,
+			"errors": 0
+		},
+		{
+			"id": 7,
+			"name": "Scanner G7",
+			"status": "error",
+			"speed": 0,
+			"eggsProcessed": 7000,
+			"temperature": 38.3,
+			"errors": 3,
+			"lastError": "Scanner malfunction"
+		},
+		{
+			"id": 8,
+			"name": "Tray Stacker H8",
+			"status": "running",
+			"speed": 125,
+			"eggsProcessed": 26100,
+			"temperature": 34.2,
+			"errors": 1
+		},
+		{
+			"id": 9,
+			"name": "Labeler I9",
+			"status": "idle",
+			"speed": 0,
+			"eggsProcessed": 12000,
+			"temperature": 30.8,
+			"errors": 0
+		},
+		{
+			"id": 10,
+			"name": "Carton Sealer J10",
+			"status": "running",
+			"speed": 140,
+			"eggsProcessed": 34200,
+			"temperature": 36.9,
+			"errors": 0
+		}
+	]
+}
