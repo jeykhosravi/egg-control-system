@@ -2,6 +2,7 @@
 	import type { MachineTypes } from '../../types/machineType.ts';
 	import MachineCard from './MachineCard.svelte';
 	import FilterButton from './FilterButton.svelte';
+	import SerachInput from './SearchInput.svelte';
 
 	export let machines: MachineTypes[] = [];
 
@@ -67,29 +68,45 @@
 			onClick={() => setFilter('maintenance')}
 		/>
 	</div>
-</div>
 
-<!-- Machine Grid -->
-<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-	{#each filteredMachines as machine}
-		<MachineCard {machine} />
-	{/each}
-</div>
+	<!-- search Input -->
+	<div class="mt-4 mb-2 w-full sm:max-w-[200px] rounded-3xl border p-2">
+		<SerachInput
+			placeholder="Search machines..."
+			on:input={(e) => {
+				const query = e.detail.toLowerCase();
+				// also contain status filter
+				filteredMachines = machines.filter(
+					(m) =>
+						(selectedFilter === 'all' || m.status === selectedFilter) &&
+						(m.name.toLowerCase().includes(query) || m.status.toLowerCase().includes(query))
+				);
+			}}
+		/>
+	</div>
 
-{#if machines.length === 0}
-	<div class="py-12 text-center">
-		<div class="mb-4 text-6xl">⚙️</div>
-		<p class="text-slate-600">Loading machine data...</p>
+	<!-- Machine Grid -->
+	<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{#each filteredMachines as machine}
+			<MachineCard {machine} />
+		{/each}
 	</div>
-{:else if filteredMachines.length === 0}
-	<div class="py-12 text-center">
-		<div class="mb-4 text-6xl">🔍</div>
-		<p class="text-slate-600">No machines found with status: {selectedFilter}</p>
-		<button
-			on:click={() => setFilter('all')}
-			class="mt-4 text-sm text-blue-600 underline hover:text-blue-700"
-		>
-			Clear filter
-		</button>
-	</div>
-{/if}
+
+	{#if machines.length === 0}
+		<div class="py-12 text-center">
+			<div class="mb-4 text-6xl">⚙️</div>
+			<p class="text-slate-600">Loading machine data...</p>
+		</div>
+	{:else if filteredMachines.length === 0}
+		<div class="py-12 text-center">
+			<div class="mb-4 text-6xl">🔍</div>
+			<p class="text-slate-600">No machines found with status: {selectedFilter}</p>
+			<button
+				on:click={() => setFilter('all')}
+				class="mt-4 text-sm text-blue-600 underline hover:text-blue-700"
+			>
+				Clear filter
+			</button>
+		</div>
+	{/if}
+</div>
