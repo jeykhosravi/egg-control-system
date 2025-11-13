@@ -1,10 +1,17 @@
 <script lang="ts">
 	import type { MachineTypes } from '../../types/machineType.ts';
 
-	export let status: MachineTypes['status'] | 'all';
-	export let count: number;
-	export let active: boolean = false;
-	export let onClick: () => void;
+	let {
+		status,
+		count,
+		active = false,
+		onClick
+	}: {
+		status: MachineTypes['status'] | 'all';
+		count: number;
+		active?: boolean;
+		onClick: () => void;
+	} = $props();
 
 	function getStatusIcon(status: MachineTypes['status'] | 'all') {
 		switch (status) {
@@ -29,7 +36,7 @@
 </script>
 
 <button
-	on:click={onClick}
+	onclick={onClick}
 	class="flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-all duration-200
 	{active
 		? 'border-black bg-gray-100 text-black'

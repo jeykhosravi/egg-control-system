@@ -4,20 +4,32 @@
 	import FilterButton from './FilterButton.svelte';
 	import SerachInput from './SearchInput.svelte';
 
-	export let machines: MachineTypes[] = [];
+	let { machines = [] }: { machines: MachineTypes[] } = $props();
 
-	let selectedFilter: MachineTypes['status'] | 'all' = 'all';
+	let selectedFilter = $state<MachineTypes['status'] | 'all'>('all');
+	let searchQuery = $state('');
 
-	$: errorMachines = machines.filter((m) => m.status === 'error').length;
-	$: runningCount = machines.filter((m) => m.status === 'running').length;
-	$: idleCount = machines.filter((m) => m.status === 'idle').length;
-	$: maintenanceCount = machines.filter((m) => m.status === 'maintenance').length;
+	let errorMachines = $derived(machines.filter((m) => m.status === 'error').length);
+	let runningCount = $derived(machines.filter((m) => m.status === 'running').length);
+	let idleCount = $derived(machines.filter((m) => m.status === 'idle').length);
+	let maintenanceCount = $derived(machines.filter((m) => m.status === 'maintenance').length);
 
-	$: filteredMachines =
-		selectedFilter === 'all' ? machines : machines.filter((m) => m.status === selectedFilter);
+	let filteredMachines = $derived(
+		machines.filter(
+			(m) =>
+				(selectedFilter === 'all' || m.status === selectedFilter) &&
+				(searchQuery === '' ||
+					m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+					m.status.toLowerCase().includes(searchQuery.toLowerCase()))
+		)
+	);
 
 	function setFilter(status: MachineTypes['status'] | 'all') {
 		selectedFilter = status;
+	}
+
+	function handleSearch(query: string) {
+		searchQuery = query;
 	}
 </script>
 
@@ -71,18 +83,7 @@
 
 	<!-- search Input -->
 	<div class="mt-4 mb-2 w-full sm:max-w-[200px] rounded-3xl border p-2">
-		<SerachInput
-			placeholder="Search machines..."
-			on:input={(e) => {
-				const query = e.detail.toLowerCase();
-				// also contain status filter
-				filteredMachines = machines.filter(
-					(m) =>
-						(selectedFilter === 'all' || m.status === selectedFilter) &&
-						(m.name.toLowerCase().includes(query) || m.status.toLowerCase().includes(query))
-				);
-			}}
-		/>
+		<SerachInput placeholder="Search machines..." oninput={handleSearch} />
 	</div>
 
 	<!-- Machine Grid -->
@@ -102,7 +103,7 @@
 			<div class="mb-4 text-6xl">🔍</div>
 			<p class="text-slate-600">No machines found with status: {selectedFilter}</p>
 			<button
-				on:click={() => setFilter('all')}
+				onclick={() => setFilter('all')}
 				class="mt-4 text-sm text-blue-600 underline hover:text-blue-700"
 			>
 				Clear filter

@@ -1,7 +1,13 @@
 <script lang="ts">
-	export let title: string = '🥚 Egg Control System';
-	export let subtitle: string = 'Real-time production monitoring dashboard';
-	export let isLive: boolean = true;
+	let {
+		title = '🥚 Egg Control System',
+		subtitle = 'Real-time production monitoring dashboard',
+		isLive = true
+	}: {
+		title?: string;
+		subtitle?: string;
+		isLive?: boolean;
+	} = $props();
 </script>
 
 <header class="border-b border-slate-200 bg-white shadow-lg">

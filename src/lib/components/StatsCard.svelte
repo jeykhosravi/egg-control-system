@@ -1,10 +1,19 @@
 <script lang="ts">
-	export let label: string;
-	export let value: string | number;
-	export let suffix: string = '';
-	export let icon: string;
-	export let iconBgColor: string = 'bg-blue-100';
-	export let valueColor: string = 'text-slate-900';
+	let {
+		label,
+		value,
+		suffix = '',
+		icon,
+		iconBgColor = 'bg-blue-100',
+		valueColor = 'text-slate-900'
+	}: {
+		label: string;
+		value: string | number;
+		suffix?: string;
+		icon: string;
+		iconBgColor?: string;
+		valueColor?: string;
+	} = $props();
 </script>
 
 <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">

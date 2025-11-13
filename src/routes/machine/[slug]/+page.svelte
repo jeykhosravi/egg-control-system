@@ -1,42 +1,44 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
 	import type { MachineTypes } from '../../../types/machineType.ts';
 	import { getMachineById } from '$lib/api/machine.ts';
 
-	let machine: MachineTypes | undefined;
-	let loading = true;
-	let error = '';
+	let machine = $state<MachineTypes | undefined>(undefined);
+	let loading = $state(true);
+	let error = $state('');
 
-	onMount(async () => {
-		try {
-			const slug = $page.params.slug;
+	$effect(() => {
+		const slug = $page.params.slug;
 
-			if (!slug) {
-				error = 'Invalid machine ID';
-				loading = false;
-				return;
-			}
-
-			const machineId = parseInt(slug);
-
-			if (isNaN(machineId)) {
-				error = 'Invalid machine ID';
-				loading = false;
-				return;
-			}
-
-			machine = await getMachineById(machineId);
-
-			if (!machine) {
-				error = 'Machine not found';
-			}
-		} catch (err) {
-			error = 'Failed to load machine data';
-			console.error(err);
-		} finally {
+		if (!slug) {
+			error = 'Invalid machine ID';
 			loading = false;
+			return;
 		}
+
+		const machineId = parseInt(slug);
+
+		if (isNaN(machineId)) {
+			error = 'Invalid machine ID';
+			loading = false;
+			return;
+		}
+
+		getMachineById(machineId)
+			.then((data) => {
+				if (!data) {
+					error = 'Machine not found';
+				} else {
+					machine = data;
+				}
+			})
+			.catch((err) => {
+				error = 'Failed to load machine data';
+				console.error(err);
+			})
+			.finally(() => {
+				loading = false;
+			});
 	});
 </script>
 

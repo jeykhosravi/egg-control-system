@@ -1,14 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher();
-	export let value: string = '';
-	export let placeholder: string = '';
+	let { value = $bindable(''), placeholder = '', oninput }: { value?: string; placeholder?: string; oninput?: (value: string) => void } = $props();
 
 	const handleInput = (e: Event) => {
 		value = (e.target as HTMLInputElement).value;
-		dispatch('input', value);
+		oninput?.(value);
 	};
 </script>
 
-<input class="outline-none" type="text" bind:value {placeholder} on:input={handleInput} />
+<input class="outline-none" type="text" bind:value {placeholder} oninput={handleInput} />

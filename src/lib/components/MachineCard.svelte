@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { MachineTypes } from '../../types/machineType.ts';
 
-	export let machine: MachineTypes;
+	let { machine }: { machine: MachineTypes } = $props();
 
 	function getStatusColor(status: MachineTypes['status']) {
 		switch (status) {

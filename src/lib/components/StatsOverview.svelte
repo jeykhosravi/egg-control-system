@@ -2,16 +2,18 @@
 	import type { MachineTypes } from '../../types/machineType.ts';
 	import StatsCard from './StatsCard.svelte';
 
-	export let machines: MachineTypes[] = [];
+	let { machines = [] }: { machines: MachineTypes[] } = $props();
 
-	$: totalEggsProcessed = machines.reduce((sum, m) => sum + m.eggsProcessed, 0);
-	$: runningMachines = machines.filter((m) => m.status === 'running').length;
-	$: avgSpeed = machines.length
-		? Math.round(
-				machines.filter((m) => m.status === 'running').reduce((sum, m) => sum + m.speed, 0) /
-					machines.filter((m) => m.status === 'running').length || 0
-			)
-		: 0;
+	let totalEggsProcessed = $derived(machines.reduce((sum, m) => sum + m.eggsProcessed, 0));
+	let runningMachines = $derived(machines.filter((m) => m.status === 'running').length);
+	let avgSpeed = $derived(
+		machines.length
+			? Math.round(
+					machines.filter((m) => m.status === 'running').reduce((sum, m) => sum + m.speed, 0) /
+						machines.filter((m) => m.status === 'running').length || 0
+				)
+			: 0
+	);
 </script>
 
 <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">

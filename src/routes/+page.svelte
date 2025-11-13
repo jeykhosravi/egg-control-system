@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { MachineTypes } from '../types/machineType.ts';
 	import { getMachineData } from '$lib/api/machine.ts';
 	import Header from '$lib/components/Header.svelte';
 	import StatsOverview from '$lib/components/StatsOverview.svelte';
 	import MachineGrid from '$lib/components/MachineGrid.svelte';
 
-	let machines: MachineTypes[] = [];
+	let machines = $state<MachineTypes[]>([]);
 
-	onMount(async () => {
-		machines = await getMachineData();
+	$effect(() => {
+		getMachineData().then(data => {
+			machines = data;
+		});
 	});
 </script>
 
