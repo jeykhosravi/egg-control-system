@@ -46,7 +46,7 @@
 </script>
 
 <a
-	href="/machine/{machine.id}"
+	href={`/machine/${machine.id}`}
 	class="block cursor-pointer rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
 >
 	<!-- Machine Header -->
